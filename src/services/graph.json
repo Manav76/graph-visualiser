@@ -1,0 +1,38 @@
+{
+    "nodes": [
+      {
+        "node_id": "A",
+        "data_in": { "input1": 0 },
+        "data_out": { "output1": 0 },
+        "paths_in": [],
+        "paths_out": ["B"]
+      },
+      {
+        "node_id": "B",
+        "data_in": { "input1": 0 },
+        "data_out": { "output1": 0 },
+        "paths_in": ["A"],
+        "paths_out": ["C"]
+      },
+      {
+        "node_id": "C",
+        "data_in": { "input1": 0 },
+        "data_out": { "output1": 0 },
+        "paths_in": ["B"],
+        "paths_out": []
+      }
+    ],
+    "edges": [
+      {
+        "src_node": "A",
+        "dst_node": "B",
+        "src_to_dst_data_keys": { "output1": "input1" }
+      },
+      {
+        "src_node": "B",
+        "dst_node": "C",
+        "src_to_dst_data_keys": { "output1": "input1" }
+      }
+    ]
+  }
+  
