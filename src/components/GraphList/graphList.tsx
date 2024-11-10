@@ -1,22 +1,24 @@
+"use client";
+
 import React from 'react';
-import { useRouter } from 'next/router';
 
-const mockGraphs = ["Graph 1", "Graph 2", "Graph 3"];
+interface GraphListProps {
+  graphs: { id: string }[];
+  onSelectGraph: (id: string) => void;
+}
 
-const GraphList: React.FC = () => {
-  const router = useRouter();
-
-  const handleGraphClick = (graphName: string) => {
-    router.push(`/graph?name=${graphName}`);
-  };
-
+const GraphList: React.FC<GraphListProps> = ({ graphs, onSelectGraph }) => {
   return (
-    <div className="graph-list">
-      <h2>Available Graphs</h2>
-      <ul>
-        {mockGraphs.map((graph) => (
-          <li key={graph} onClick={() => handleGraphClick(graph)}>
-            {graph}
+    <div className="w-full max-w-xs bg-gray-800 text-white p-4 rounded-lg shadow-lg">
+      <h2 className="text-xl font-semibold mb-4">Available Graphs</h2>
+      <ul className="space-y-2">
+        {graphs.map((graph) => (
+          <li
+            key={graph.id}
+            className="cursor-pointer p-2 bg-gray-700 rounded hover:bg-gray-600"
+            onClick={() => onSelectGraph(graph.id)}
+          >
+            {graph.id}
           </li>
         ))}
       </ul>

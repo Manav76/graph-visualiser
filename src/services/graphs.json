@@ -1,0 +1,66 @@
+[
+    {
+      "id": "Valid Graph",
+      "nodes": [
+        { "node_id": "A", "enabled": true, "data_in": { "input1": 0 }, "data_out": { "output1": 0 }, "paths_in": [], "paths_out": ["B"] },
+        { "node_id": "B", "enabled": true, "data_in": { "input1": 0 }, "data_out": { "output1": 0 }, "paths_in": ["A"], "paths_out": ["C"] },
+        { "node_id": "C", "enabled": true, "data_in": { "input1": 0 }, "data_out": { "output1": 0 }, "paths_in": ["B"], "paths_out": [] }
+      ],
+      "edges": [
+        { "src_node": "A", "dst_node": "B", "src_to_dst_data_keys": { "output1": "input1" } },
+        { "src_node": "B", "dst_node": "C", "src_to_dst_data_keys": { "output1": "input1" } }
+      ]
+    },
+    {
+      "id": "Graph with Cycle",
+      "nodes": [
+        { "node_id": "X", "enabled": true, "data_in": { "input1": 0 }, "data_out": { "output1": 0 }, "paths_in": [], "paths_out": ["Y"] },
+        { "node_id": "Y", "enabled": true, "data_in": { "input1": 0 }, "data_out": { "output1": 0 }, "paths_in": ["X"], "paths_out": ["Z"] },
+        { "node_id": "Z", "enabled": true, "data_in": { "input1": 0 }, "data_out": { "output1": 0 }, "paths_in": ["Y"], "paths_out": ["X"] }
+      ],
+      "edges": [
+        { "src_node": "X", "dst_node": "Y", "src_to_dst_data_keys": { "output1": "input1" } },
+        { "src_node": "Y", "dst_node": "Z", "src_to_dst_data_keys": { "output1": "input1" } },
+        { "src_node": "Z", "dst_node": "X", "src_to_dst_data_keys": { "output1": "input1" } }
+      ]
+    },
+    {
+      "id": "Graph with Data Type Mismatch",
+      "nodes": [
+        { "node_id": "P", "enabled": true, "data_in": { "input1": 0 }, "data_out": { "output1": 0 }, "paths_in": [], "paths_out": ["Q"] },
+        { "node_id": "Q", "enabled": true, "data_in": { "input1": "string" }, "data_out": { "output1": "string" }, "paths_in": ["P"], "paths_out": [] }
+      ],
+      "edges": [
+        { "src_node": "P", "dst_node": "Q", "src_to_dst_data_keys": { "output1": "input1" } }
+      ]
+    },
+    {
+        "id": "Complex Graph",
+        "nodes": [
+          { "node_id": "A", "enabled": true, "data_in": { "input1": 0 }, "data_out": { "output1": 42 }, "paths_in": [], "paths_out": ["B", "D"] },
+          { "node_id": "B", "enabled": true, "data_in": { "input1": 0 }, "data_out": { "output1": 100 }, "paths_in": ["A"], "paths_out": ["C"] },
+          { "node_id": "C", "enabled": true, "data_in": { "input1": "string" }, "data_out": { "output1": "string" }, "paths_in": ["B"], "paths_out": [] },
+          { "node_id": "D", "enabled": true, "data_in": { "input1": true }, "data_out": { "output1": false }, "paths_in": ["A"], "paths_out": ["E"] },
+          { "node_id": "E", "enabled": false, "data_in": { "input1": 0 }, "data_out": { "output1": 0 }, "paths_in": ["D"], "paths_out": ["F"] },
+          { "node_id": "F", "enabled": true, "data_in": { "input1": "boolean" }, "data_out": { "output1": true }, "paths_in": ["E"], "paths_out": ["C"] },
+          { "node_id": "G", "enabled": true, "data_in": { "input1": 0 }, "data_out": { "output1": 0 }, "paths_in": [], "paths_out": ["H"] },
+          { "node_id": "H", "enabled": true, "data_in": { "input1": "number" }, "data_out": { "output1": 0 }, "paths_in": ["G"], "paths_out": ["I"] },
+          { "node_id": "I", "enabled": true, "data_in": { "input1": 0 }, "data_out": { "output1": 0 }, "paths_in": ["H"], "paths_out": ["B"] }
+        ],
+        "edges": [
+          { "src_node": "A", "dst_node": "B", "src_to_dst_data_keys": { "output1": "input1" } },
+          { "src_node": "A", "dst_node": "D", "src_to_dst_data_keys": { "output1": "input1" } },
+          { "src_node": "B", "dst_node": "C", "src_to_dst_data_keys": { "output1": "input1" } },
+          { "src_node": "D", "dst_node": "E", "src_to_dst_data_keys": { "output1": "input1" } },
+          { "src_node": "E", "dst_node": "F", "src_to_dst_data_keys": { "output1": "input1" } },
+          { "src_node": "F", "dst_node": "C", "src_to_dst_data_keys": { "output1": "input1" } },
+          { "src_node": "G", "dst_node": "H", "src_to_dst_data_keys": { "output1": "input1" } },
+          { "src_node": "H", "dst_node": "I", "src_to_dst_data_keys": { "output1": "input1" } },
+          { "src_node": "I", "dst_node": "B", "src_to_dst_data_keys": { "output1": "input1" } },
+          { "src_node": "B", "dst_node": "C", "src_to_dst_data_keys": { "output1": "input1" } }  
+        ]
+      }
+      
+  ]
+  
+  
