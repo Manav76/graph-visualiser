@@ -59,47 +59,24 @@ export default function Home() {
   
     if (nodeIndex === -1 || newNodeIndex === -1) return;
   
+    // Swapping the IDs in the nodes array
     [nodesCopy[nodeIndex].node_id, nodesCopy[newNodeIndex].node_id] = [nodesCopy[newNodeIndex].node_id, nodesCopy[nodeIndex].node_id];
   
-    // Assuming you have a method to update the state of your graph:
-    // updateGraph({...selectedGraph, nodes: nodesCopy});
+    // Update the graph state (if you're maintaining it in a state)
+    // setSelectedGraph({...selectedGraph, nodes: nodesCopy});
+  
+    // Remapping dataInOverwrites using functional update
+    setDataInOverwrites(prevState => {
+      const newDataInOverwrites = {...prevState};
+      const temp = newDataInOverwrites[selectedNodeId];
+      newDataInOverwrites[selectedNodeId] = newDataInOverwrites[newNodeId];
+      newDataInOverwrites[newNodeId] = temp;
+      return newDataInOverwrites;
+    });
   
     setIsEditingNodeId(false);
-    setNewNodeId(null);  // Clear the selected new node ID after swapping
+    setNewNodeId(null); // Clear the selected new node ID after swapping
     toast.success(`Node IDs swapped: ${selectedNodeId} ↔ ${newNodeId}`);
-  };
-
-  const handleOverwriteInput = (key: string, value: any) => {
-    if (!selectedNodeId) return;
-
-    const node = selectedGraph?.nodes.find((n) => n.node_id === selectedNodeId);
-    if (!node) return;
-
-    const expectedType = typeof node.data_in[key as keyof typeof node.data_in];
-    let convertedValue: any = value;
-    if (expectedType === 'number') {
-      convertedValue = parseFloat(value);
-      if (isNaN(convertedValue)) {
-        toast.error(`Invalid input: Expected a number, but got "${value}"`);
-        return;
-      }
-    } else if (expectedType === 'boolean') {
-      convertedValue = value.toLowerCase() === 'true';
-    }
-
-    if (expectedType !== typeof convertedValue) {
-      toast.error(`Type mismatch: Expected ${expectedType}, but got ${typeof convertedValue}`);
-      return;
-    }
-
-    setDataInOverwrites((prevState) => ({
-      ...prevState,
-      [selectedNodeId]: {
-        ...prevState[selectedNodeId],
-        [key]: convertedValue,
-      },
-    }));
-    toast.info(`Input ${key} overwritten for node ${selectedNodeId}`);
   };
 
   const handleToggleNode = (nodeId: string) => {
@@ -138,6 +115,8 @@ export default function Home() {
         return;
       }
 
+      debugger
+
       const output = executeGraph(selectedGraph?.nodes || [], transformedEdges, dataInOverwrites);
       setGraphOutput(output);
       toast.success('Graph executed successfully.');
@@ -146,7 +125,6 @@ export default function Home() {
     }
   };
 
-  console.log(graphOutput, "hello")
   return (
     <div className="flex flex-col">
       <ToastContainer />
@@ -171,9 +149,9 @@ export default function Home() {
         <div className="flex flex-col w-3/4 gap-4">
           <div className='p-2 bg-[#282a36] rounded-lg'>
             <h3 className="text-xl font-semibold text-white mb-4">Nodes</h3>
-            <ul className="flex flex-row flex-wrap space-x-4 text-white">
+            <ul className="flex flex-row flex-wrap space-x-4">
               {selectedGraph?.nodes.map((node) => (
-                <li key={node.node_id} className="flex items-center mb-2">
+                <li key={node.node_id} className="flex items-center mb-2 text-white">
                   <span className="mr-2">{node.node_id}</span>
                   <button
                     className={`px-3 py-1 rounded ${nodeState[node.node_id] ? 'bg-green-500' : 'bg-red-500'}`}
